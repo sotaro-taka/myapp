@@ -2,11 +2,14 @@ from django.shortcuts import render, redirect
 from .models import User, Room
 from .models import Post
 from .models import Shop
+import urllib.parse
 
 
 def startView(request):
     return render(request, 'start.html')
 
+
+#ユーザ登録処理
 def createUser(request):
     error_messages = []
 
@@ -39,6 +42,8 @@ def createUser(request):
     }
     return render(request, "signup.html", context)
 
+
+#ログイン処理を行う関数
 def loginView(request):
     error_messages = []
 
@@ -94,7 +99,7 @@ def loginView(request):
 
     #クッキーにユーザ名を設定してメイン画面へ
     response = redirect('mychat:main')
-    response.set_cookie('USER', user_name)
+    response.set_cookie('USER', urllib.parse.quote(user_name))
     return response
 
 def main(request):
